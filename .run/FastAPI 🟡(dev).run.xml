@@ -1,13 +1,16 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="FastAPI 🟡(dev)" type="Python.FastAPI">
-    <option name="additionalOptions" value="--reload --port 8822 --host 0.0.0.0 --log-level warning" />
-    <option name="file" value="$PROJECT_DIR$/web/main.py" />
+    <option name="additionalOptions" value="--reload --port 8822 --host 0.0.0.0 " />
+    <option name="file" value="$PROJECT_DIR$/app/main.py" />
     <module name="stat-scraper-web" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
+    <envs>
+      <env name="MONGO_URI" value="mongodb://admin:admin@localhost:27017/?authMechanism=DEFAULT&amp;authSource=admin" />
+    </envs>
     <option name="SDK_HOME" value="$USER_HOME$/Library/Caches/pypoetry/virtualenvs/rl-ingestor-6T1OWJ6G-py3.10/bin/python" />
     <option name="SDK_NAME" value="Poetry (rl_ingestor)" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/web" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
