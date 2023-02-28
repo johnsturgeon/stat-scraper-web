@@ -1,134 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/model.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <link rel="stylesheet" href="/static/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet">
-    <title>RL Stats</title>
-</head>
-<body>
-<section class="m-2 rounded-lg bg-black/70">
-    <div class="rounded-lg bg-gradient-to-b from-blue-700/40 to-orange-700/40 p-4 text-white">
-        <div class="jhs-text-baseline grid  grid-cols-[50px_2fr_repeat(5,_minmax(75px,_1fr))] grid-rows-3">
-            <div class="font-['Jura'] text-4xl jhs-text-shadow-blue-lg" id="team_1_score">0</div>
-            <div class="font-['Jura'] text-4xl text-blue-400/90 jhs-text-shadow-blue w-80">BLUE</div>
-            <div class="stat_header">SCORE</div>
-            <div class="stat_header">GOALS</div>
-            <div class="stat_header">ASSISTS</div>
-            <div class="stat_header">SAVES</div>
-            <div class="stat_header">SHOTS</div>
-            <div class="text-2xl font-['Jura'] col-start-2" id="player_t1_p1_name"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p1_score"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p1_goals"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p1_assists"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p1_saves"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p1_shots"></div>
-
-            <div class="text-2xl font-['Jura'] col-start-2" id="player_t1_p2_name"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p2_score"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p2_goals"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p2_assists"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p2_saves"></div>
-            <div class="text-2xl font-['Jura']" id="player_t1_p2_shots"></div>
-        </div>
-        <div class="pt-4 jhs-text-baseline grid  grid-cols-[50px_2fr_repeat(5,_minmax(75px,_1fr))] grid-rows-3">
-            <div class="font-['Jura'] text-4xl jhs-text-shadow-orange-lg" id="team_2_score">0</div>
-            <div class="font-['Jura'] text-4xl text-orange-400/90 jhs-text-orange-blue w-80">ORANGE</div>
-            <div class="stat_header">SCORE</div>
-            <div class="stat_header">GOALS</div>
-            <div class="stat_header">ASSISTS</div>
-            <div class="stat_header">SAVES</div>
-            <div class="stat_header">SHOTS</div>
-            <div class="text-2xl font-['Jura'] col-start-2" id="player_t2_p1_name"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p1_score"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p1_goals"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p1_assists"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p1_saves"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p1_shots"></div>
-
-            <div class="text-2xl font-['Jura'] col-start-2" id="player_t2_p2_name"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p2_score"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p2_goals"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p2_assists"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p2_saves"></div>
-            <div class="text-2xl font-['Jura']" id="player_t2_p2_shots"></div>
-        </div>
+{% extends "base_layout.j2" %}
+{% block includes %}
+    <script src="{{ url_for('static', path="mmr_chart.js") }}"></script>
+    <script src="{{ url_for('static', path="index.js") }}"></script>
+{% endblock includes %}
+{% block section1 %}
+    <div class="rounded-lg bg-gradient-to-b from-blue-700/40 to-orange-700/40 p-4 text-white" id="scoreboard">
+    <script>
+        addLiveScoreboardToElementID("scoreboard")
+    </script>
     </div>
-</section>
 <script>
-    let previous_scores = [0, 0, 0, 0]
-    function updateFields(roster) {
-        if (roster) {
-            let player_index = 1
-            roster.getTeam('Blue').forEach(player => {
-                const player_name = '[' + player.mmr + '] ' + player.name
-                eval('player_t1_p' + player_index + '_name.innerHTML = player_name')
-                eval('player_t1_p' + player_index + '_score.innerHTML = player.score')
-                eval('player_t1_p' + player_index + '_goals.innerHTML = player.goals')
-                eval('player_t1_p' + player_index + '_assists.innerHTML = player.assists')
-                eval('player_t1_p' + player_index + '_saves.innerHTML = player.saves')
-                eval('player_t1_p' + player_index + '_shots.innerHTML = player.shots')
-                player_index++
-            })
-            team_1_score.innerHTML = roster.getTeamGoals('Blue')
-            player_index = 1
-            roster.getTeam('Orange').forEach(player => {
-                const player_name = '[' + player.mmr + '] ' + player.name
-                eval('player_t2_p' + player_index + '_name.innerHTML = player_name')
-                eval('player_t2_p' + player_index + '_score.innerHTML = player.score')
-                eval('player_t2_p' + player_index + '_goals.innerHTML = player.goals')
-                eval('player_t2_p' + player_index + '_assists.innerHTML = player.assists')
-                eval('player_t2_p' + player_index + '_saves.innerHTML = player.saves')
-                eval('player_t2_p' + player_index + '_shots.innerHTML = player.shots')
-                player_index++
-            })
-            team_2_score.innerHTML = roster.getTeamGoals('Orange')
-        } else {
-            resetFields()
-        }
-    }
-
-    function resetFields() {
-        let team = 1
-        let player = 1
-        for (let i = team; i <= 2; i++) {
-            for (let n = player; n <= 2; n++) {
-                eval('player_t' + i + '_p' + n + '_name.innerHTML = ""')
-                eval('player_t' + i + '_p' + n + '_score.innerHTML = ""')
-                eval('player_t' + i + '_p' + n + '_goals.innerHTML = ""')
-                team_1_score.innerHTML = 0
-            }
-        }
-    }
 
 </script>
 <script>
 
-    let roster = null
+    let online_game = null
+    let previous_match_id = ""
 
-    function fetchRoster() {
-        fetch("{{ url_for('roster_data') }}")
+    function fetchLiveGame() {
+        fetch("{{ url_for('get_online_game') }}")
             .then(res => res.json())
             .then(data => {
                 if (data) {
-                    console.log(data)
-                    roster = new Roster(data)
-                    console.log(roster)
+                    online_game = OnlineGame.from(data)
                 }
-                updateFields(roster)
+                if (online_game.match_id !== previous_match_id) {
+                    updateFields()
+                    previous_match_id = online_game.match_id
+                }
+                updateFields(online_game)
             })
     }
 
     window.addEventListener('load', function () {
         const fetchInterval = 500
-        setInterval(fetchRoster, fetchInterval)
+        setInterval(fetchLiveGame, fetchInterval)
     })
-
+    window.addEventListener('resize', function () { myChart.resize() })
 </script>
-</body>
-</html>
+
+{% endblock section1 %}
+{% block section2 %}
+    <div class="rounded-lg bg-gradient-to-b from-blue-700/40 to-orange-700/40 p-4 text-white">
+        <div class="grid grid-cols-2">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+            <div id="game_list">
+                <div>One</div>
+                <div>Two</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const ctx = document.getElementById('myChart');
+        let myChart = newMMRChart(ctx)
+        function fetchMMRData() {
+            fetchMMRChartData("{{ url_for('get_todays_mmr') }}")
+            {#addGameToDiv('game_list', new OnlineGame())#}
+        }
+        fetchMMRData()
+        window.addEventListener('load', function () {
+            const fetchInterval = 2000
+            setInterval(fetchMMRData, fetchInterval)
+        })
+
+    </script>
+
+{% endblock %}
