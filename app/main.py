@@ -54,11 +54,6 @@ async def root(request: Request):
     return templates.TemplateResponse("index.j2",  {"request": request})
 
 
-@app.get("/index2")
-async def index2(request: Request):
-    return templates.TemplateResponse("index.html")
-
-
 @app.get("/online_game")
 async def get_online_game():
     if current_online_game:
@@ -69,21 +64,12 @@ async def get_online_game():
 
 @app.post("/online_game")
 async def create_online_game(game: OnlineGame):
-    # print(f"From Bakkes {game.json()}")
     global current_online_game
     if game.game_state == GameState.GAME_ENDED:
         await game.save()
     session_online_games[game.match_id] = game
     current_online_game = game
-    print(f"Got Online Game from bakkes {game}")
     return {"success": "true"}
-
-
-@app.get("/games", response_class=HTMLResponse)
-async def games(request: Request):
-    midnight = datetime.combine(datetime.today(), time.min)
-    all_games = await OnlineGame.find(OnlineGame.start_timestamp > (midnight.timestamp() - 24 * 60 * 60)).to_list()
-    return templates.TemplateResponse("games.j2", {"request": request, "games": all_games})
 
 
 @app.get("/get_todays_mmr")
@@ -103,10 +89,6 @@ async def get_todays_mmr():
         chart_data["mmr"] .append(game.primary_player_ending_mmr)
     return {"chart_data": chart_data}
 
-
-@app.post("/message")
-async def message(request: Request):
-    print(f"---- Got message from plugin {await request.json()}")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8822, log_level="warn")
