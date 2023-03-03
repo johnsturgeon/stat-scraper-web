@@ -3,6 +3,7 @@ function newMMRChart (ctx) {
         type: 'line',
         data: {
             datasets: [{
+                label: "MMR",
                 borderWidth: 1
             }]
         },
