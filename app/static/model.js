@@ -8,6 +8,32 @@ const GameState = {
     'GAME_ENDED': 2
 }
 
+const RankTier = {
+    22: 'Supersonic Legend',
+    21: 'GrandChamp III',
+    20: 'GrandChamp II',
+    19: 'GrandChamp I',
+    18: 'Champ III',
+    17: 'Champ II',
+    16: 'Champ I',
+    15: 'Diamond III',
+    14: 'Diamond II',
+    13: 'Diamond I',
+    12: 'Platinum III',
+    11: 'Platinum II',
+    10: 'Platinum I',
+    9: 'Gold III',
+    8: 'Gold II',
+    7: 'Gold I',
+    6: 'Silver III',
+    5: 'Silver II',
+    4: 'Silver I',
+    3: 'Bronze III',
+    2: 'Bronze II',
+    1: 'Bronze I',
+    0: 'Unranked'
+}
+
 const PlaylistIds = {
      /** @type {Number} */
     'RankedTeamDoubles': 11
