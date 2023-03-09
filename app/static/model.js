@@ -8,32 +8,137 @@ const GameState = {
     'GAME_ENDED': 2
 }
 
-const RankTier = {
-    22: 'Supersonic Legend',
-    21: 'GrandChamp III',
-    20: 'GrandChamp II',
-    19: 'GrandChamp I',
-    18: 'Champ III',
-    17: 'Champ II',
-    16: 'Champ I',
-    15: 'Diamond III',
-    14: 'Diamond II',
-    13: 'Diamond I',
-    12: 'Platinum III',
-    11: 'Platinum II',
-    10: 'Platinum I',
-    9: 'Gold III',
-    8: 'Gold II',
-    7: 'Gold I',
-    6: 'Silver III',
-    5: 'Silver II',
-    4: 'Silver I',
-    3: 'Bronze III',
-    2: 'Bronze II',
-    1: 'Bronze I',
-    0: 'Unranked'
+const RankTierMap = {
+    22: {
+        name: 'Supersonic Legend',
+        img_name: 'supersonic_legend'
+    },
+    21: {
+        name: 'GrandChamp III',
+        img_name: 'grand_champ_III'
+    },
+    20: {
+        name: 'GrandChamp II',
+        img_name: 'grand_champ_II'
+    },
+    19: {
+        name: 'GrandChamp I',
+        img_name: 'grand_champ_I'
+    },
+    18: {
+        name: 'Champion III',
+        img_name: 'champion_III'
+    },
+    17: {
+        name: 'Champion II',
+        img_name: 'champion_II'
+    },
+    16: {
+        name: 'Champion I',
+        img_name: 'champion_I'
+    },
+    15: {
+        name: 'Diamond III',
+        img_name: 'diamond_III'
+    },
+    14: {
+        name: 'Diamond II',
+        img_name: 'diamond_II'
+    },
+    13: {
+        name: 'Diamond I',
+        img_name: 'diamond_I'
+    },
+    12: {
+        name: 'Platinum III',
+        img_name: 'platinum_III'
+    },
+    11: {
+        name: 'Platinum II',
+        img_name: 'platinum_II'
+    },
+    10: {
+        name: 'Platinum I',
+        img_name: 'platinum_I'
+    },
+    9: {
+        name: 'Gold III',
+        img_name: 'gold_III'
+    },
+    8: {
+        name: 'Gold II',
+        img_name: 'gold_II'
+    },
+    7: {
+        name: 'Gold I',
+        img_name: 'gold_I'
+    },
+    6: {
+        name: 'Silver III',
+        img_name: 'silver_III'
+    },
+    5: {
+        name: 'Silver II',
+        img_name: 'silver_II'
+    },
+    4: {
+        name: 'Silver I',
+        img_name: 'silver_I'
+    },
+    3: {
+        name: 'Bronze III',
+        img_name: 'bronze_III'
+    },
+    2: {
+        name: 'Bronze II',
+        img_name: 'bronze_II'
+    },
+    1: {
+        name: 'Bronze I',
+        img_name: 'bronze_I'
+    },
+    0: {
+        name: 'Unranked',
+        img_name: 'unranked'
+    }
 }
 
+class SkillRank {
+    /** @type int */
+    tier
+    /** @type int */
+    division
+    /** @type int */
+    matches_played
+    get fullRank() {
+        return `${this.tierString} Div ${this.divString}`
+    }
+    get image_thumbnail() {
+        const img = RankTierMap[this.tier].img_name
+        return `/static/images/${img}_small.webp`
+    }
+
+    get image() {
+        const img = RankTierMap[this.tier].img_name
+        return `/static/images/${img}.webp`
+    }
+    get divString() {
+        switch(this.division) {
+            case 0:
+                return "I"
+            case 1:
+                return "II"
+            case 2:
+                return "III"
+            case 3:
+                return "IV"
+        }
+    }
+
+    get tierString() {
+        return `${RankTierMap[this.tier].name}`
+    }
+}
 const PlaylistIds = {
      /** @type {Number} */
     'RankedTeamDoubles': 11
@@ -61,6 +166,18 @@ class OnlineGame {
     primary_bakkes_player_id
     game_state
 
+    get primaryPlayer() {
+        for (/** @type Player */const player of this.roster) {
+            if (player.is_primary_player) {
+                return player
+            }
+        }
+        return null
+    }
+    get formattedStartTime() {
+        const startDate = new Date(this.start_timestamp * 1000)
+        return this.formatAMPM(startDate)
+    }
     /**
      *
      * @param {number} teamNumber
@@ -89,6 +206,15 @@ class OnlineGame {
         })
         return team_score
     }
+    formatAMPM(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    }
 }
 class Player {
     name
@@ -106,4 +232,15 @@ class Player {
     mmrAsInt() {
         return Math.round(this.mmr)
     }
+
+    skill_rank
+
+    /**
+     *
+     * @returns {SkillRank}
+     */
+    get skillRank() {
+        return Object.assign(new SkillRank(), this.skill_rank);
+    }
+
 }

@@ -72,22 +72,13 @@ async def create_online_game(game: OnlineGame):
     return {"success": "true"}
 
 
-@app.get("/get_todays_mmr")
-async def get_todays_mmr():
+@app.get("/todays_games")
+async def todays_games():
     midnight = datetime.combine(datetime.today(), time.min)
-    todays_games: List[OnlineGame] = await OnlineGame.find(
+    the_games: List[OnlineGame] = await OnlineGame.find(
         OnlineGame.start_timestamp > (midnight.timestamp() - 24 * 60 * 60)
     ).to_list()
-    chart_data = {
-        "time": [],
-        "mmr": []
-    }
-    for game in todays_games:
-        arrow_time = arrow.get(game.end_timestamp)
-        arrow_time = arrow_time.to('US/Pacific')
-        chart_data["time"].append(arrow_time.format('h:mm a'))
-        chart_data["mmr"] .append(game.primary_player_ending_mmr)
-    return {"chart_data": chart_data}
+    return the_games
 
 
 if __name__ == "__main__":

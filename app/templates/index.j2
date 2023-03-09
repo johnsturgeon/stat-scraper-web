@@ -54,7 +54,7 @@
         const ctx = document.getElementById('myChart');
         let myChart = newMMRChart(ctx)
         function fetchMMRData() {
-            fetchMMRChartData("{{ url_for('get_todays_mmr') }}")
+            fetchMMRChartData("{{ url_for('todays_games') }}")
             {#addGameToDiv('game_list', new OnlineGame())#}
         }
         fetchMMRData()

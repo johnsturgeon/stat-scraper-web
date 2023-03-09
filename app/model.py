@@ -93,6 +93,13 @@ class OnlineGame(Document):
         midnight = datetime.combine(datetime.today(), time.min)
         return OnlineGame.find(OnlineGame.start_timestamp > (midnight.timestamp() - 24*60*60))
 
+    def get_primary_player(self) -> Optional[Player]:
+        player: Player
+        for player in self.roster:
+            if player.is_primary_player:
+                return player
+        return None
+
 
 class Chart(BaseModel):
     labels: List
