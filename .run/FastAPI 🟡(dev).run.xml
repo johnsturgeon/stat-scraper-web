@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="FastAPI 🟡(dev)" type="Python.FastAPI">
-    <option name="additionalOptions" value="--reload --port 8822 --host 0.0.0.0 " />
+    <option name="additionalOptions" value="--reload --port 8822 --host 0.0.0.0  --log-level warning" />
     <option name="file" value="$PROJECT_DIR$/app/main.py" />
     <module name="stat-scraper-web" />
     <option name="INTERPRETER_OPTIONS" value="" />

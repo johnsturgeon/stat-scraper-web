@@ -13,4 +13,4 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install --only main
 
-CMD ["uvicorn", "main:app", "--port", "8822", "--host", "0.0.0.0"]
+CMD ["uvicorn", "main:app", "--port", "8822", "--host", "0.0.0.0", "--log-level", "warning"]
