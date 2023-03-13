@@ -49,7 +49,7 @@ function addLiveScoreboardToElementID(elementID) {
         }
         for (let playerNum = 0; playerNum < numPlayers; playerNum++) {
             addElementToParent(
-                `text-2xl col-start-2 ${playerRowClasses}`,
+                `text-2xl flex col-start-2 ${playerRowClasses}`,
                 teamDiv,
                 `t${teamNum}_p${playerNum}_name`
                 )
@@ -96,9 +96,9 @@ function updateFields(online_game) {
         if (online_game) {
             players = online_game.getTeam(teamNum)
         }
-        players.forEach(player => {
-            /** @type {Element} */
-            eval(`t${teamNum}_p${playerNum}_name`).innerHTML = online_game ? player.name : ""
+        players.forEach(/** @type {Player} */player => {
+            const player_name = playerHTML(player)
+            eval(`t${teamNum}_p${playerNum}_name`).innerHTML = online_game ? player_name : ""
             eval(`t${teamNum}_p${playerNum}_score`).innerHTML = online_game ? player.score : ""
             eval(`t${teamNum}_p${playerNum}_goals`).innerHTML = online_game ? player.goals : ""
             eval(`t${teamNum}_p${playerNum}_assists`).innerHTML = online_game ? player.assists : ""
@@ -120,6 +120,18 @@ function addGameToDiv(elementID, game) {
     const gameTime = new Date(game.end_timestamp * 1000)
     div.innerHTML = `Game Time: ${gameTime.toLocaleTimeString()}`
     document.getElementById(elementID).appendChild(div)
+}
+
+/**
+ *
+ * @param {Player} player
+ * @return {string}
+ */
+function playerHTML(player) {
+    const imgDiv = `<div><img class="w-4 h-4" src="${img_dir}/${player.platformLogo}.webp" /></div>`
+    const mmrDiv = `<div>[${player.mmrAsInt()}]`
+    const playerNameDiv = `<div>${player.name}</div>`
+    return `${imgDiv} ${mmrDiv} ${playerNameDiv}`
 }
 
 /**

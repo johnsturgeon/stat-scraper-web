@@ -27,6 +27,14 @@ function newMMRChart (ctx) {
     });
 }
 
+function imageThumbnailSrc(img_name) {
+    return `${img_dir}/${img_name}_small.webp`
+}
+
+function imageSrc(img_name) {
+    return `${img_dir}/${img_name}.webp`
+}
+
 function tooltipLabel(context) {
     /** @type OnlineGame */
     const game = cached_online_games[context.dataIndex]
@@ -39,6 +47,7 @@ function tooltipLabel(context) {
 function tooltipBeforeTitle(context) {
     return "Game Time"
 }
+
 function fetchMMRChartData(data_url) {
     cached_online_games = []
     fetch(data_url)
@@ -48,17 +57,22 @@ function fetchMMRChartData(data_url) {
                 let game_times = []
                 let labels = []
                 let point_images = []
-                let point_radius
                 for (const game_json of onlineGames) {
                     /** @type OnlineGame */
                     const game = OnlineGame.from(game_json)
                     cached_online_games.push(game)
                     /** @type Player */
                     const primaryPlayer = game.primaryPlayer
+                    if (!primaryPlayer) {
+                        console.log("No primary player: Game")
+                        console.log(JSON.stringify(game))
+                        continue
+                    }
                     game_times.push(game.formattedStartTime)
                     labels.push(game.primary_player_ending_mmr)
                     let image = new Image(15, 15)
-                    image.src = primaryPlayer.skillRank.image_thumbnail
+
+                    image.src = imageThumbnailSrc(primaryPlayer.skillRank.imageName)
                     point_images.push(
                         image
                     )

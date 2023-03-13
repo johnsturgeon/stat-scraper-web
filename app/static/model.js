@@ -8,7 +8,22 @@ const GameState = {
     'GAME_ENDED': 2
 }
 
-const RankTierMap = {
+const PlatformDetail = {
+    "Epic": {
+        logo: "epic_logo"
+    },
+    "Steam": {
+        logo: "steam_logo"
+    },
+    "XboxOne": {
+        logo: "xbox_logo"
+    },
+    "PS4": {
+        logo: "ps4_logo"
+    }
+}
+
+const RankTierDetail = {
     22: {
         name: 'Supersonic Legend',
         img_name: 'supersonic_legend'
@@ -113,14 +128,9 @@ class SkillRank {
     get fullRank() {
         return `${this.tierString} Div ${this.divString}`
     }
-    get image_thumbnail() {
-        const img = RankTierMap[this.tier].img_name
-        return `/static/images/${img}_small.webp`
-    }
 
-    get image() {
-        const img = RankTierMap[this.tier].img_name
-        return `/static/images/${img}.webp`
+    get imageName() {
+        return RankTierDetail[this.tier].img_name
     }
     get divString() {
         switch(this.division) {
@@ -136,7 +146,7 @@ class SkillRank {
     }
 
     get tierString() {
-        return `${RankTierMap[this.tier].name}`
+        return `${RankTierDetail[this.tier].name}`
     }
 }
 const PlaylistIds = {
@@ -229,6 +239,21 @@ class Player {
     mmr
     is_primary_player
     is_in_game
+
+    /**
+     * Returns the player's platform LOGO
+     * @returns {string}
+     */
+    get platformLogo() {
+        if (!this.platform_id_string) {
+            console.log("No Platform ID String!")
+            console.log(JSON.stringify(this))
+            return "?"
+        } else {
+            const platform = this.platform_id_string.split('|')[0]
+            return PlatformDetail[platform].logo
+        }
+    }
     mmrAsInt() {
         return Math.round(this.mmr)
     }
