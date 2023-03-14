@@ -84,6 +84,9 @@ const PlatformDetail = {
     },
     "Switch": {
         logo: "switch_logo"
+    },
+    "unknown": {
+        logo: "unknown_logo"
     }
 }
 
@@ -309,14 +312,15 @@ class Player {
      * @returns {string}
      */
     get platformLogo() {
-        if (!this.platform_id_string) {
-            console.log("No Platform ID String!")
-            console.log(JSON.stringify(this))
-            return "?"
-        } else {
+        if (this.platform_id_string) {
             const platform = this.platform_id_string.split('|')[0]
-            return PlatformDetail[platform].logo
+            if (platform in PlatformDetail) {
+                return PlatformDetail[platform].logo
+            }
         }
+        console.log("No Platform ID String!")
+        console.log(JSON.stringify(this))
+        return PlatformDetail["unknown"].logo
     }
     mmrAsInt() {
         return Math.round(this.mmr)
