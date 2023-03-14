@@ -81,6 +81,9 @@ const PlatformDetail = {
     },
     "PS4": {
         logo: "ps4_logo"
+    },
+    "Switch": {
+        logo: "switch_logo"
     }
 }
 
