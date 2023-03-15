@@ -1,1 +1,10 @@
-const img_dir = "/static/images"
+const kImgDir = "/static/images"
+
+/** @type string[] */
+const kPlatformList = [
+    "Epic",
+    "Steam",
+    "XboxOne",
+    "PS4",
+    "Switch"
+]

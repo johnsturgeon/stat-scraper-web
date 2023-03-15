@@ -128,7 +128,7 @@ function addGameToDiv(elementID, game) {
  * @return {string}
  */
 function playerHTML(player) {
-    const imgDiv = `<div><img class="w-4 h-4" src="${img_dir}/${player.platformLogo}.webp" /></div>`
+    const imgDiv = `<div><img alt="${player.platform}" class="w-4 h-4" src="${logoSrcFromPlatformName(player.platform)}" /></div>`
     const mmrDiv = `<div>[${player.mmrAsInt()}]`
     const playerNameDiv = `<div>${player.name}</div>`
     return `${imgDiv} ${mmrDiv} ${playerNameDiv}`

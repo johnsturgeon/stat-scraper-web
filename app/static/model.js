@@ -69,27 +69,6 @@ const ChatMap = {
     "Group6Message8": "I'll do my best."
 }
 
-const PlatformDetail = {
-    "Epic": {
-        logo: "epic_logo"
-    },
-    "Steam": {
-        logo: "steam_logo"
-    },
-    "XboxOne": {
-        logo: "xbox_logo"
-    },
-    "PS4": {
-        logo: "ps4_logo"
-    },
-    "Switch": {
-        logo: "switch_logo"
-    },
-    "unknown": {
-        logo: "unknown_logo"
-    }
-}
-
 const RankTierDetail = {
     22: {
         name: 'Supersonic Legend',
@@ -308,19 +287,19 @@ class Player {
     is_in_game
 
     /**
-     * Returns the player's platform LOGO
+     * Returns the player's platform
      * @returns {string}
      */
-    get platformLogo() {
+
+    get platform() {
+        let return_platform = "Unknown"
         if (this.platform_id_string) {
-            const platform = this.platform_id_string.split('|')[0]
-            if (platform in PlatformDetail) {
-                return PlatformDetail[platform].logo
+            const split_platform = this.platform_id_string.split('|')[0]
+            if (kPlatformList.indexOf(split_platform) > -1) {
+                return_platform = split_platform
             }
         }
-        console.log("No Platform ID String!")
-        console.log(JSON.stringify(this))
-        return PlatformDetail["unknown"].logo
+        return return_platform
     }
     mmrAsInt() {
         return Math.round(this.mmr)

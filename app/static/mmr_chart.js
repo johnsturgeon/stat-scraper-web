@@ -28,11 +28,11 @@ function newMMRChart (ctx) {
 }
 
 function imageThumbnailSrc(img_name) {
-    return `${img_dir}/${img_name}_small.webp`
+    return `${kImgDir}/${img_name}_small.webp`
 }
 
 function imageSrc(img_name) {
-    return `${img_dir}/${img_name}.webp`
+    return `${kImgDir}/${img_name}.webp`
 }
 
 function tooltipLabel(context) {
