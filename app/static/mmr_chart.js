@@ -27,14 +27,6 @@ function newMMRChart (ctx) {
     });
 }
 
-function imageThumbnailSrc(img_name) {
-    return `${kImgDir}/${img_name}_small.webp`
-}
-
-function imageSrc(img_name) {
-    return `${kImgDir}/${img_name}.webp`
-}
-
 function tooltipLabel(context) {
     /** @type OnlineGame */
     const game = cached_online_games[context.dataIndex]
@@ -72,7 +64,7 @@ function fetchMMRChartData(data_url) {
                     labels.push(game.primary_player_ending_mmr)
                     let image = new Image(15, 15)
 
-                    image.src = imageThumbnailSrc(primaryPlayer.skillRank.imageName)
+                    image.src = rankSrcThumbFromRankName(primaryPlayer.skillRank.imageName)
                     point_images.push(
                         image
                     )
