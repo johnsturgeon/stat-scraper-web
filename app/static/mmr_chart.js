@@ -64,7 +64,7 @@ function fetchMMRChartData(data_url) {
                     labels.push(game.primary_player_ending_mmr)
                     let image = new Image(15, 15)
 
-                    image.src = rankSrcThumbFromRankName(primaryPlayer.skillRank.imageName)
+                    image.src = rankSrcThumbFromRankName(primaryPlayer.skillRank.tierName)
                     point_images.push(
                         image
                     )

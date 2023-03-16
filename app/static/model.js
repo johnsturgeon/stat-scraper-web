@@ -69,99 +69,37 @@ const ChatMap = {
     "Group6Message8": "I'll do my best."
 }
 
-const RankTierDetail = {
-    22: {
-        name: 'Supersonic Legend',
-        img_name: 'supersonic_legend'
-    },
-    21: {
-        name: 'GrandChamp III',
-        img_name: 'grand_champ_III'
-    },
-    20: {
-        name: 'GrandChamp II',
-        img_name: 'grand_champ_II'
-    },
-    19: {
-        name: 'GrandChamp I',
-        img_name: 'grand_champ_I'
-    },
-    18: {
-        name: 'Champion III',
-        img_name: 'champion_III'
-    },
-    17: {
-        name: 'Champion II',
-        img_name: 'champion_II'
-    },
-    16: {
-        name: 'Champion I',
-        img_name: 'champion_I'
-    },
-    15: {
-        name: 'Diamond III',
-        img_name: 'diamond_III'
-    },
-    14: {
-        name: 'Diamond II',
-        img_name: 'diamond_II'
-    },
-    13: {
-        name: 'Diamond I',
-        img_name: 'diamond_I'
-    },
-    12: {
-        name: 'Platinum III',
-        img_name: 'platinum_III'
-    },
-    11: {
-        name: 'Platinum II',
-        img_name: 'platinum_II'
-    },
-    10: {
-        name: 'Platinum I',
-        img_name: 'platinum_I'
-    },
-    9: {
-        name: 'Gold III',
-        img_name: 'gold_III'
-    },
-    8: {
-        name: 'Gold II',
-        img_name: 'gold_II'
-    },
-    7: {
-        name: 'Gold I',
-        img_name: 'gold_I'
-    },
-    6: {
-        name: 'Silver III',
-        img_name: 'silver_III'
-    },
-    5: {
-        name: 'Silver II',
-        img_name: 'silver_II'
-    },
-    4: {
-        name: 'Silver I',
-        img_name: 'silver_I'
-    },
-    3: {
-        name: 'Bronze III',
-        img_name: 'bronze_III'
-    },
-    2: {
-        name: 'Bronze II',
-        img_name: 'bronze_II'
-    },
-    1: {
-        name: 'Bronze I',
-        img_name: 'bronze_I'
-    },
-    0: {
-        name: 'Unranked',
-        img_name: 'unranked'
-    }
+const RankTierName = {
+    22: 'Supersonic Legend',
+    21: 'Grand Champ III',
+    20: 'Grand Champ II',
+    19: 'Grand Champ I',
+    18: 'Champion III',
+    17: 'Champion II',
+    16: 'Champion I',
+    15: 'Diamond III',
+    14: 'Diamond II',
+    13: 'Diamond I',
+    12: 'Platinum III',
+    11: 'Platinum II',
+    10: 'Platinum I',
+    9: 'Gold III',
+    8: 'Gold II',
+    7: 'Gold I',
+    6: 'Silver III',
+    5: 'Silver II',
+    4: 'Silver I',
+    3: 'Bronze III',
+    2: 'Bronze II',
+    1: 'Bronze I',
+    0: 'Unranked'
+}
+
+const RankDivisionName = {
+    0: "I",
+    1: "II",
+    2: "III",
+    3: "IV"
 }
 
 class SkillRank {
@@ -171,28 +109,25 @@ class SkillRank {
     division
     /** @type int */
     matches_played
+
+    /**
+     * Return the 'full rank as "Platinum II Division I"
+     * @return {string}
+     */
     get fullRank() {
-        return `${this.tierString} Div ${this.divString}`
+        return `${this.tierName} Div ${this.divisionName}`
     }
 
-    get imageName() {
-        return RankTierDetail[this.tier].img_name
-    }
-    get divString() {
-        switch(this.division) {
-            case 0:
-                return "I"
-            case 1:
-                return "II"
-            case 2:
-                return "III"
-            case 3:
-                return "IV"
-        }
+    /**
+     * Return the 'name' of the tier
+     * @return {string}
+     */
+    get tierName() {
+        return RankTierName[this.tier]
     }
 
-    get tierString() {
-        return `${RankTierDetail[this.tier].name}`
+    get divisionName() {
+        return RankDivisionName[this.division]
     }
 }
 const PlaylistIds = {
