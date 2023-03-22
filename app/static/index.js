@@ -94,7 +94,9 @@ function updateFields(online_game) {
         /** @type {Player[]} */
         let players = [new Player(), new Player()]
         if (online_game) {
+            console.log(online_game.roster.length)
             players = online_game.getTeam(teamNum)
+            console.log(`Team: ${teamNum} -- Players: ${players.length}`)
         }
         players.forEach(/** @type {Player} */player => {
             const player_name = playerHTML(player)

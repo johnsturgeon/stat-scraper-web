@@ -23,6 +23,7 @@ origins = ["*"]
 
 session_online_games: Dict = {}
 current_online_game: Optional[OnlineGame] = None
+current_chat_messages: List[ChatMessage] = []
 
 app.add_middleware(
     CORSMiddleware,
@@ -56,20 +57,36 @@ async def root(request: Request):
 
 @app.get("/online_game")
 async def get_online_game():
+    global current_online_game
     if current_online_game:
         return current_online_game
     else:
-        return await OnlineGame.find().sort("-_id").first_or_none()
+        current_online_game = await OnlineGame.find().sort("-_id").first_or_none()
+        return current_online_game
 
 
 @app.post("/online_game")
 async def create_online_game(game: OnlineGame):
-    global current_online_game
+    global current_online_game, current_chat_messages
+    # Since the chat messages come in async, we need to append what we have
+    game.chat_messages = current_chat_messages
     if game.game_state == GameState.GAME_ENDED:
         await game.save()
     session_online_games[game.match_id] = game
     current_online_game = game
     return {"success": "true"}
+
+
+@app.post("/chat_message")
+async def add_chat_message(message: ChatMessage):
+    global current_online_game, current_chat_messages
+    if current_online_game.match_id != message.match_id:
+        print("Chat message sent for wrong game")
+        return {"success": "false"}
+    if len(current_chat_messages) and current_chat_messages[-1].match_id != message.match_id:
+        current_chat_messages = []
+    current_chat_messages.append(message)
+    current_online_game.chat_messages = current_chat_messages
 
 
 @app.get("/todays_games")

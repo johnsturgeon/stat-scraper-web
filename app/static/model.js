@@ -9,66 +9,65 @@ const GameState = {
 }
 
 const ChatMap = {
-    "Group1Message1": "I got it!",
-    "Group1Message2": "Need boost!",
-    "Group1Message3": "Take the shot!",
-    "Group1Message4": "Defending...",
-    "Group1Message5": "Go for it!",
-    "Group1Message6": "Centering!",
-    "Group1Message7": "All yours.",
-    "Group1Message8": "In position.",
-    "Group1Message9": "Incoming!",
-    "Group1Message10": "Faking.",
-    "Group1Message11": "Bumping!",
-    "Group1Message12": "On your left.",
-    "Group1Message13": "On your right.",
-    "Group1Message14": "Passing!",
-    "Group2Message1": "Nice shot!",
-    "Group2Message2": "Great pass!",
-    "Group2Message3": "Thanks!",
-    "Group2Message4": "What a save!",
-    "Group2Message5": "Nice one!",
-    "Group2Message6": "What a play!",
-    "Group2Message7": "Great clear!",
-    "Group2Message8": "Nice block!",
-    "Group2Message9": "Nice bump!",
-    "Group2Message10": "Nice demo!",
-    "Group3Message1": "OMG!",
-    "Group3Message2": "Noooo!",
-    "Group3Message3": "Wow!",
-    "Group3Message4": "Close one!",
-    "Group3Message5": "No way!",
-    "Group3Message6": "Holy cow!",
-    "Group3Message7": "Whew.",
-    "Group3Message8": "Siiiick!",
-    "Group3Message9": "Calculated.",
-    "Group3Message10": "Savage!",
-    "Group3Message11": "Okay.",
-    "Group4Message1": "$#@%!",
-    "Group4Message2": "No problem.",
-    "Group4Message3": "Whoops...",
-    "Group4Message4": "Sorry!",
-    "Group4Message5": "My bad...",
-    "Group4Message6": "Oops!",
-    "Group4Message7": "My fault.",
-    "Group5Message1": "gg",
-    "Group5Message2": "Well played.",
-    "Group5Message3": "That was fun!",
-    "Group5Message4": "Rematch!",
-    "Group5Message5": "One. More. Game.",
-    "Group5Message6": "What a game!",
-    "Group5Message7": "Nice moves.",
-    "Group5Message8": "Everybody dance!",
-    "Group6Message1": "Good luck!",
-    "Group6Message2": "Have fun!",
-    "Group6Message3": "Get ready.",
-    "Group6Message4": "This is Rocket League!",
-    "Group6Message5": "Let's do this!",
-    "Group6Message6": "Here. We. Go.",
-    "Group6Message7": "Nice cars!",
-    "Group6Message8": "I'll do my best."
+    Group1Message1: "I got it!",
+    Group1Message2: "Need boost!",
+    Group1Message3: "Take the shot!",
+    Group1Message4: "Defending...",
+    Group1Message5: "Go for it!",
+    Group1Message6: "Centering!",
+    Group1Message7: "All yours.",
+    Group1Message8: "In position.",
+    Group1Message9: "Incoming!",
+    Group1Message10: "Faking.",
+    Group1Message11: "Bumping!",
+    Group1Message12: "On your left.",
+    Group1Message13: "On your right.",
+    Group1Message14: "Passing!",
+    Group2Message1: "Nice shot!",
+    Group2Message2: "Great pass!",
+    Group2Message3: "Thanks!",
+    Group2Message4: "What a save!",
+    Group2Message5: "Nice one!",
+    Group2Message6: "What a play!",
+    Group2Message7: "Great clear!",
+    Group2Message8: "Nice block!",
+    Group2Message9: "Nice bump!",
+    Group2Message10: "Nice demo!",
+    Group3Message1: "OMG!",
+    Group3Message2: "Noooo!",
+    Group3Message3: "Wow!",
+    Group3Message4: "Close one!",
+    Group3Message5: "No way!",
+    Group3Message6: "Holy cow!",
+    Group3Message7: "Whew.",
+    Group3Message8: "Siiiick!",
+    Group3Message9: "Calculated.",
+    Group3Message10: "Savage!",
+    Group3Message11: "Okay.",
+    Group4Message1: "$#@%!",
+    Group4Message2: "No problem.",
+    Group4Message3: "Whoops...",
+    Group4Message4: "Sorry!",
+    Group4Message5: "My bad...",
+    Group4Message6: "Oops!",
+    Group4Message7: "My fault.",
+    Group5Message1: "gg",
+    Group5Message2: "Well played.",
+    Group5Message3: "That was fun!",
+    Group5Message4: "Rematch!",
+    Group5Message5: "One. More. Game.",
+    Group5Message6: "What a game!",
+    Group5Message7: "Nice moves.",
+    Group5Message8: "Everybody dance!",
+    Group6Message1: "Good luck!",
+    Group6Message2: "Have fun!",
+    Group6Message3: "Get ready.",
+    Group6Message4: "This is Rocket League!",
+    Group6Message5: "Let's do this!",
+    Group6Message6: "Here. We. Go.",
+    Group6Message7: "Nice cars!",
+    Group6Message8: "I'll do my best."
 }
-
 const RankTierName = {
     22: 'Supersonic Legend',
     21: 'Grand Champ III',
@@ -102,6 +101,30 @@ const RankDivisionName = {
     3: "IV"
 }
 
+class ChatMessage {
+    /** @type string */
+    match_id
+    /** @type int */
+    timestamp
+    /** @type int */
+    channel
+    /** @type string */
+    message
+    /** @type string */
+    player_name
+
+    /**
+     * Return the mapped string of the message
+     * @return {string}
+     */
+    get messageString() {
+        if (this.message in ChatMap) {
+            return ChatMap[this.message]
+        } else {
+            return this.message
+        }
+    }
+}
 class SkillRank {
     /** @type int */
     tier
@@ -109,7 +132,6 @@ class SkillRank {
     division
     /** @type int */
     matches_played
-
     /**
      * Return the 'full rank as "Platinum II Division I"
      * @return {string}
@@ -117,7 +139,6 @@ class SkillRank {
     get fullRank() {
         return `${this.tierName} Div ${this.divisionName}`
     }
-
     /**
      * Return the 'name' of the tier
      * @return {string}
@@ -125,7 +146,6 @@ class SkillRank {
     get tierName() {
         return RankTierName[this.tier]
     }
-
     get divisionName() {
         return RankDivisionName[this.division]
     }
@@ -136,13 +156,22 @@ const PlaylistIds = {
 }
 
 class OnlineGame {
+    /** @type boolean */
+    static chat_log_updated
+    /** @type {Number} */
+    static chat_log_size
     static from(json){
         let game = Object.assign(new OnlineGame(), json);
         let t_roster = Array()
+        let t_chat_messages = Array()
         for (let i=0; i< game.roster.length; i++) {
             t_roster.push(Object.assign(new Player, game.roster[i]))
         }
+        for (const chat of game.chat_messages) {
+            t_chat_messages.push(Object.assign(new ChatMessage, chat))
+        }
         game.roster = t_roster
+        game.chat_messages = t_chat_messages
         return game
     }
      /** unique ID of the match
@@ -156,6 +185,7 @@ class OnlineGame {
     primary_player_ending_mmr
     primary_bakkes_player_id
     game_state
+    chat_messages
 
     get primaryPlayer() {
         for (/** @type Player */const player of this.roster) {
@@ -177,6 +207,9 @@ class OnlineGame {
     getTeam(teamNumber) {
         let team = []
         this.roster.forEach(player => {
+            if (player.team_num < 0 || player.team_num > 1) {
+                console.log(`JHS: Player Team Num.. odd ${player.team_num}`)
+            }
             if (player.team_num === teamNumber) {
                 team.push(player)
             }
@@ -184,6 +217,28 @@ class OnlineGame {
         return team
     }
 
+    /**
+     *
+     * @param {string} player_name
+     */
+    teamColorForPlayerName(player_name) {
+        let player = this.playerFromPlayerName(player_name)
+        return player.textColor
+    }
+
+    /**
+     *
+     * @param {string} player_name
+     * @return {Player}
+     */
+    playerFromPlayerName(player_name) {
+        for (const player of this.roster) {
+            if (player.name === player_name) {
+                return player
+            }
+        }
+        return null
+    }
     /**
      *
      * @param {number} teamNumber
@@ -218,6 +273,7 @@ class Player {
     assists
     shots
     mmr
+    own_goals
     is_primary_player
     is_in_game
 
@@ -248,6 +304,14 @@ class Player {
      */
     get skillRank() {
         return Object.assign(new SkillRank(), this.skill_rank);
+    }
+
+    get textColor() {
+        if (this.team_num === 0) {
+            return 'text-blue'
+        } else {
+            return 'text-orange'
+        }
     }
 
 }

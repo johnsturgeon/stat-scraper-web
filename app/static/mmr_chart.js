@@ -56,8 +56,8 @@ function fetchMMRChartData(data_url) {
                     /** @type Player */
                     const primaryPlayer = game.primaryPlayer
                     if (!primaryPlayer) {
-                        console.log("No primary player: Game")
-                        console.log(JSON.stringify(game))
+                        // console.log("No primary player: Game")
+                        // console.log(JSON.stringify(game.match_id))
                         continue
                     }
                     game_times.push(game.formattedStartTime)

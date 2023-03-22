@@ -44,6 +44,14 @@ class RankTier(IntEnum):
     Unranked = 0
 
 
+class ChatMessage(BaseModel):
+    match_id: str
+    timestamp: int
+    channel: int
+    message: str
+    player_name: str
+
+
 class GameState(IntEnum):
     NO_GAME = 0
     GAME_IN_PROCESS = 1
@@ -71,6 +79,7 @@ class Player(BaseModel):
     assists: int
     shots: int
     mmr: float
+    own_goals: Optional[int]
     is_primary_player: bool
     is_in_game: bool
     skill_rank: Optional[SkillRank]
@@ -87,6 +96,7 @@ class OnlineGame(Document):
     primary_player_ending_mmr: float
     primary_bakkes_player_id: int
     game_state: GameState
+    chat_messages: Optional[List[ChatMessage]] = []
 
     @staticmethod
     async def todays_games():

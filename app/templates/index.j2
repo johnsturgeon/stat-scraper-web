@@ -29,6 +29,7 @@
                     previous_match_id = online_game.match_id
                 }
                 updateFields(online_game)
+                addLogToElement("chat_log", online_game)
             })
     }
 
@@ -41,6 +42,18 @@
 
 {% endblock section1 %}
 {% block section2 %}
+    <div class="rounded-lg bg-gradient-to-b from-blue-700/40 to-orange-700/40 p-4 text-white">
+        <div class="grid grid-cols-2">
+            <div id="chat_log" class="max-h-60 overflow-y-auto">
+                Chat log
+            </div>
+            <div>
+                Event stream
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block section3 %}
     <div class="rounded-lg bg-gradient-to-b from-blue-700/40 to-orange-700/40 p-4 text-white">
         <div class="grid grid-cols-2">
             <div>
@@ -64,5 +77,4 @@
         })
 
     </script>
-
-{% endblock %}
+{% endblock section3 %}
